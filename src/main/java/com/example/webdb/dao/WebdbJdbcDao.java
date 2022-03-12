@@ -1,44 +1,38 @@
 package com.example.webdb.dao;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class WebdbJdbcDao implements WebdbDao {
 
-    private JdbcTemplate jdbcTemplate;
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @Override
-    public List<JSONObject> select(String query, String dbName, String tableName) {
+    public  List<Map<String, Object>> select(String query, String dbName, String tableName) {
 
         String[] columnNames = getColumnNames(dbName, tableName);
 
         return this.jdbcTemplate.query(query,
                 (rs, rowNum) -> {
-                    JSONObject obj = new JSONObject();
+                    Map<String, Object> map = new HashMap<>();
                     for (int i = 0;i<columnNames.length;i++) {
-                        obj.put(columnNames[i], rs.getObject(columnNames[i]));
+                        map.put(columnNames[i], rs.getObject(columnNames[i]));
                     }
-                    return obj;
+                    return map;
                 }
         );
     }
 
     @Override
     public void update(String query) {
-
+        this.jdbcTemplate.update(query);
     }
 
     private String[] getColumnNames(String dbName, String tableName) {
