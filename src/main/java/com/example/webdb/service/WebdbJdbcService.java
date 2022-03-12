@@ -1,8 +1,6 @@
 package com.example.webdb.service;
 
 import com.example.webdb.dao.WebdbJdbcDao;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

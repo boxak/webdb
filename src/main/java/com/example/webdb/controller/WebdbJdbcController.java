@@ -1,7 +1,6 @@
 package com.example.webdb.controller;
 
 import com.example.webdb.service.WebdbJdbcService;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
