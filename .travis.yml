@@ -1,0 +1,49 @@
+language: java
+jdk:
+  - openjdk8
+
+branches:
+  only:
+    - master
+
+cache:
+  directories:
+    - '$HOME/.m2'
+
+before_install:
+  - chmod +x mvnw
+
+script: "./mvnw clean package -Dmaven.test.skip"
+
+before_deploy:
+  - zip -r crawler *
+  - mkdir -p deploy
+  - mv crawler.zip deploy/crawler.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: travis-ci-bucket-boxak
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait_until_deployed: true
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+
+    bucket: travis-ci-bucket-boxak
+    key: crawler.zip
+    bundle_type: zip
+    application: travis-ci-deploy-application
+    deployment_group: travis-ci-deploy-group
+    region: ap-northeast-2
+    wait-until-deployed: true
+
+notifications:
+  email:
+    recipients:
+      - boxak@naver.com
