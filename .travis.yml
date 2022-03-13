@@ -16,7 +16,7 @@ before_install:
 script: "./mvnw clean package -Dmaven.test.skip"
 
 before_deploy:
-  - zip -r crawler *
+  - zip -r webdb *
   - mkdir -p deploy
   - mv webdb.zip deploy/webdb.zip
 
@@ -37,7 +37,7 @@ deploy:
     secret_access_key: $AWS_SECRET_KEY
 
     bucket: travis-ci-bucket-boxak
-    key: crawler.zip
+    key: webdb.zip
     bundle_type: zip
     application: travis-ci-deploy-application
     deployment_group: travis-ci-deploy-group
