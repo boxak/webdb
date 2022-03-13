@@ -32,7 +32,8 @@ deploy:
     wait_until_deployed: true
 
   - provider: codedeploy
-    access_key_id: $AWS_ACCESS_KEY
+    access_key_id:
+      secure: $AWS_ACCESS_KEY
     secret_access_key: $AWS_SECRET_KEY
 
     bucket: travis-ci-bucket-boxak
