@@ -11,6 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/jdbc")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class WebdbJdbcController {
 
     @Autowired
